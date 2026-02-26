@@ -1,0 +1,43 @@
+version: "2.4"
+services:
+  app:
+    container_name: "application-server"
+    # SPIKE/TESTING ONLY: Using community image (arfodublo/cursor-in-browser)
+    # Security: Pinned to specific version for reproducibility
+    # Production TODO: Replace with Verily-audited image or custom build
+    image: "arfodublo/cursor-in-browser:1.7.52-x64"
+    # Alternative: Uncomment to build from custom Dockerfile (recommended for production)
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    # Alternative: Build custom image with additional tools
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - .:/workspace:cached
+      - cursor-data:/cursor
+      - cursor-config:/config
+    ports:
+      - "8080:8080"
+    environment:
+      # Authentication for Cursor access
+      CUSTOM_USER: "cursor"
+      PASSWORD: "changeme"
+      # Optional: Pre-configure Cursor settings
+      # CURSOR_API_KEY: "${CURSOR_API_KEY}"
+    networks:
+      - app-network
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor:unconfined
+networks:
+  app-network:
+    external: true
+volumes:
+  cursor-data:
+  cursor-config:
