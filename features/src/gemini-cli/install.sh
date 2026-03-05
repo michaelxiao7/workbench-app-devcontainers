@@ -41,5 +41,5 @@ function gemini() {
 EOF
 fi
 
-# Fix NVM permissions so non-root users can manage the active-version symlink.
-chmod -R a+rwX /usr/local/share/nvm 2>/dev/null || true
+# Fix NVM ownership so the container user can manage the active-version symlink.
+chown -R "${USERNAME}:${USERNAME}" /usr/local/share/nvm 2>/dev/null || true
