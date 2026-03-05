@@ -26,9 +26,8 @@ if [ "${USERNAME}" != "root" ]; then
     chown -R "${USERNAME}:${USERNAME}" "$(npm root -g)" 2>/dev/null || true
 fi
 
-# Wrap gemini in tmux so its TUI works reliably in browser-based terminals
-# (code-server, JupyterLab). Without tmux, the browser intercepts raw-mode
-# keypresses before they reach the TUI. If already in tmux, runs directly.
+# Wrap gemini in tmux so its TUI works in browser-based terminals (code-server,
+# JupyterLab). No-op if already in a tmux session.
 BASHRC="${USER_HOME_DIR}/.bashrc"
 if [ -f "${BASHRC}" ] && ! grep -q 'function gemini' "${BASHRC}"; then
     cat >> "${BASHRC}" << 'EOF'
