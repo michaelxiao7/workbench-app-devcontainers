@@ -17,6 +17,8 @@ readonly USER_HOME_DIR
 export DEBIAN_FRONTEND=noninteractive
 export TZ=Etc/UTC
 
+check_packages curl ca-certificates tmux
+
 npm install -g @google/gemini-cli
 
 # Make it accessible to the specified user
@@ -24,12 +26,20 @@ if [ "${USERNAME}" != "root" ]; then
     chown -R "${USERNAME}:${USERNAME}" "$(npm root -g)" 2>/dev/null || true
 fi
 
-# Set TERM in the user's shell profile so TUI apps (like gemini) work correctly
-# in web-based terminals (e.g. code-server, JupyterLab). Without this, browser
-# terminals may swallow raw-mode keypresses and leave the TUI unresponsive.
+# Wrap gemini in tmux so its TUI works reliably in browser-based terminals
+# (code-server, JupyterLab). Without tmux, the browser intercepts raw-mode
+# keypresses before they reach the TUI. If already in tmux, runs directly.
 BASHRC="${USER_HOME_DIR}/.bashrc"
-if [ -f "${BASHRC}" ] && ! grep -q 'TERM=xterm-256color' "${BASHRC}"; then
-    echo 'export TERM=xterm-256color' >> "${BASHRC}"
+if [ -f "${BASHRC}" ] && ! grep -q 'function gemini' "${BASHRC}"; then
+    cat >> "${BASHRC}" << 'EOF'
+function gemini() {
+    if [ -z "$TMUX" ]; then
+        tmux new-session -A -s "gemini" -- "$(command -v gemini)" "$@"
+    else
+        command gemini "$@"
+    fi
+}
+EOF
 fi
 
 # Fix NVM permissions so non-root users can manage the active-version symlink.
