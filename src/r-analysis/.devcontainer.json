@@ -33,10 +33,7 @@
       "version": "lts"
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
-    "./.devcontainer/features/gemini-cli": {
-      "username": "rstudio",
-      "userHomeDir": "/home/rstudio"
-    },
+    "./.devcontainer/features/gemini-cli": {},
     "./.devcontainer/features/workbench-tools": {
       "cloud": "${templateOption:cloud}",
       "username": "rstudio",

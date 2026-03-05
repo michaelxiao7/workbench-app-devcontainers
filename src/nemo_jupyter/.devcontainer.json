@@ -28,10 +28,7 @@
       "version": "lts"
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
-    "./.devcontainer/features/gemini-cli": {
-      "username": "jupyter",
-      "userHomeDir": "/home/jupyter"
-    },
+    "./.devcontainer/features/gemini-cli": {},
     "./.devcontainer/features/workbench-tools": {
       "cloud": "${templateOption:cloud}",
       "username": "jupyter",
