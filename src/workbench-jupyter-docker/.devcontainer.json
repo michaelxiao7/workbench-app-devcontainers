@@ -16,6 +16,16 @@
     "${templateOption:cloud}",
     "${templateOption:login}"
   ],
+  "features": {
+    "ghcr.io/devcontainers/features/node": {
+      "version": "lts"
+    },
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+    "./.devcontainer/features/gemini-cli": {
+      "username": "jupyter",
+      "userHomeDir": "/home/jupyter"
+    }
+  },
   "remoteUser": "root",
   "customizations": {
     "workbench": {
