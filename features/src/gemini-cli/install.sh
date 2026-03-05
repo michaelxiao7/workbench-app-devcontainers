@@ -88,8 +88,7 @@ install_gemini_cli() {
     npm install -g @google/gemini-cli
 
     if command -v gemini >/dev/null; then
-        echo "Gemini CLI installed successfully!"
-        gemini --version
+        echo "Gemini CLI installed successfully at: $(command -v gemini)"
         return 0
     else
         echo "ERROR: Gemini CLI installation failed!"
