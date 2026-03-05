@@ -21,11 +21,6 @@ check_packages curl ca-certificates tmux
 
 npm install -g @google/gemini-cli
 
-# Make it accessible to the specified user
-if [ "${USERNAME}" != "root" ]; then
-    chown -R "${USERNAME}:${USERNAME}" "$(npm root -g)" 2>/dev/null || true
-fi
-
 # Wrap gemini in tmux so its TUI works in browser-based terminals (code-server,
 # JupyterLab). No-op if already in a tmux session.
 BASHRC="${USER_HOME_DIR}/.bashrc"
