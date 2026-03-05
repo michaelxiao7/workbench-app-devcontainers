@@ -17,6 +17,19 @@ readonly USER_HOME_DIR
 export DEBIAN_FRONTEND=noninteractive
 export TZ=Etc/UTC
 
+function apt_get_update() {
+    if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+        apt-get update -y
+    fi
+}
+
+function check_packages() {
+    if ! dpkg -s "$@" > /dev/null 2>&1; then
+        apt_get_update
+        apt-get -y install --no-install-recommends "$@"
+    fi
+}
+
 check_packages curl ca-certificates tmux
 
 npm install -g @google/gemini-cli
