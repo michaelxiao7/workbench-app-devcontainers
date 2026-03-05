@@ -24,7 +24,5 @@ if [ "${USERNAME}" != "root" ]; then
     chown -R "${USERNAME}:${USERNAME}" "$(npm root -g)" 2>/dev/null || true
 fi
 
-# Fix NVM directory permissions so non-root users can update the active-version
-# symlink on terminal open. The node devcontainer feature installs NVM as root,
-# causing "Permission denied" errors in the user's shell profile otherwise.
+# Fix NVM permissions so non-root users can manage the active-version symlink.
 chmod -R a+rwX /usr/local/share/nvm 2>/dev/null || true
