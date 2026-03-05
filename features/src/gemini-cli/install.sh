@@ -24,5 +24,13 @@ if [ "${USERNAME}" != "root" ]; then
     chown -R "${USERNAME}:${USERNAME}" "$(npm root -g)" 2>/dev/null || true
 fi
 
+# Set TERM in the user's shell profile so TUI apps (like gemini) work correctly
+# in web-based terminals (e.g. code-server, JupyterLab). Without this, browser
+# terminals may swallow raw-mode keypresses and leave the TUI unresponsive.
+BASHRC="${USER_HOME_DIR}/.bashrc"
+if [ -f "${BASHRC}" ] && ! grep -q 'TERM=xterm-256color' "${BASHRC}"; then
+    echo 'export TERM=xterm-256color' >> "${BASHRC}"
+fi
+
 # Fix NVM permissions so non-root users can manage the active-version symlink.
 chmod -R a+rwX /usr/local/share/nvm 2>/dev/null || true
