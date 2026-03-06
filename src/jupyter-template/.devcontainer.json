@@ -36,7 +36,7 @@
       "version": "lts"
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
-    "./.devcontainer/features/gemini-cli": {},
+    "./.devcontainer/features/gemini-cli": { "username": "jupyter" },
     "./.devcontainer/features/jupyter": {
       "installJupyterlab": true,
       "cloudPlatform": "${templateOption:cloud}",
