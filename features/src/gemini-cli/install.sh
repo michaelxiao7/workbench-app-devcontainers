@@ -23,5 +23,8 @@ USERNAME="${USERNAME:-root}"
 chown -R "${USERNAME}:${USERNAME}" /usr/local/share/nvm 2>/dev/null || true
 
 # Pre-initialize ~/.gemini config so the TUI works on first launch.
-# Without this, the TUI crashes on first run.
-su - "${USERNAME}" -c 'gemini --version' 2>/dev/null || true
+# Without this, the TUI crashes on first run. We use the resolved binary path
+# directly since NVM is only on PATH in the current root shell, not in login shells.
+USER_HOME="$(getent passwd "${USERNAME}" | cut -d: -f6 || echo "/root")"
+HOME="${USER_HOME}" "$(command -v gemini)" --version 2>/dev/null || true
+chown -R "${USERNAME}:${USERNAME}" "${USER_HOME}/.gemini" 2>/dev/null || true
