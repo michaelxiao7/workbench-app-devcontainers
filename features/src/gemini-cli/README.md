@@ -7,7 +7,7 @@ Installs the Gemini CLI globally
 
 ```json
 "features": {
-    "ghcr.io/michaelxiao7/workbench-app-devcontainers/features/src/gemini-cli:1": {}
+    "./.devcontainer/features/gemini-cli": {}
 }
 ```
 

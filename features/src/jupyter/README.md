@@ -7,7 +7,7 @@ Installs the provided version of Python, as well as PIPX, and other common Pytho
 
 ```json
 "features": {
-    "ghcr.io/michaelxiao7/workbench-app-devcontainers/features/src/jupyter:1": {}
+    "./.devcontainer/features/jupyter": {}
 }
 ```
 

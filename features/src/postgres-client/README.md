@@ -7,7 +7,7 @@ Installs the PostgreSQL client tools (psql, pg_dump, pg_restore) from the offici
 
 ```json
 "features": {
-    "ghcr.io/michaelxiao7/workbench-app-devcontainers/features/src/postgres-client:1": {}
+    "./.devcontainer/features/postgres-client": {}
 }
 ```
 
