@@ -7,7 +7,7 @@ Installs common tools for Workbench Apps. Currently it only supports Debian-base
 
 ```json
 "features": {
-    "ghcr.io/verily-src/workbench-app-devcontainers/workbench-tools:1": {}
+    "ghcr.io/michaelxiao7/workbench-app-devcontainers/features/src/workbench-tools:1": {}
 }
 ```
 
