@@ -24,21 +24,16 @@ fi
 echo "Installing Gemini CLI..."
 npm install -g @google/gemini-cli
 
-# Resolve the exact node binary used to install (guaranteed v20+).
-# We write a wrapper at /usr/local/bin/gemini so that regardless of which
-# node is on the user's PATH at runtime, Gemini CLI always runs with the
-# correct node version.
-NODE_BIN="$(which node)"
-GEMINI_BIN="$(npm root -g)/@google/gemini-cli/bundle/gemini.js"
-
-cat > /usr/local/bin/gemini << EOF
-#!/bin/sh
-exec "${NODE_BIN}" "${GEMINI_BIN}" "\$@"
-EOF
-chmod +x /usr/local/bin/gemini
-
 USERNAME="${USERNAME:-root}"
 
 # Fix NVM ownership so the container user can manage the active-version symlink.
 # Without this, opening a new terminal prints a permission denied error.
 chown -R "${USERNAME}:${USERNAME}" "${NVM_DIR}" 2>/dev/null || true
+
+# Gemini CLI's /ide install command looks for 'code' on PATH to install its
+# companion extension. code-server uses a different binary name, so we create
+# a 'code' shim that delegates to it. This suppresses the "VS Code CLI not
+# found" error on first launch. Only created if code-server is present.
+if [ -f /app/code-server/bin/code-server ] && [ ! -f /usr/local/bin/code ]; then
+    ln -s /app/code-server/bin/code-server /usr/local/bin/code
+fi
