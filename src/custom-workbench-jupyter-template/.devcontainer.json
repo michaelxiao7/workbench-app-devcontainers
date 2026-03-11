@@ -1,8 +1,7 @@
 {
   "name": "Custom Workbench JupyterLab devcontainer template",
-  "dockerComposeFile": ["docker-compose.yaml", "../jupyter-common/jupyter-common-compose.yaml"],
+  "dockerComposeFile": "docker-compose.yaml",
   "service": "app",
-  "runServices": ["app"],
   "shutdownAction": "none",
   "workspaceFolder": "/workspace",
   "postCreateCommand": [
