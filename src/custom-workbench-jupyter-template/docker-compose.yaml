@@ -1,12 +1,20 @@
 include:
   - ../jupyter-common/jupyter-common-compose.yaml
 services:
+  # Builds the base workbench-jupyter image locally from the vendored Dockerfile.
+  # This service is not started directly; it exists so the app service can
+  # reference it as a build context via 'workbench-jupyter-base'.
+  workbench-jupyter-base:
+    build:
+      context: .
+      dockerfile: workbench-jupyter.Dockerfile
   app:
     container_name: "application-server"
     build:
       context: .
       additional_contexts:
         jupyter-extension-builder: service:jupyter-common-extension-builder
+        workbench-jupyter-base: service:workbench-jupyter-base
     user: "jupyter"
     restart: always
     volumes:

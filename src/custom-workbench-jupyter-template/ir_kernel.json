@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "/bin/bash",
+    "-c",
+    "source ~/.bashrc && exec R --slave -e 'IRkernel::main()' --args {connection_file}"
+  ],
+  "display_name": "R",
+  "language": "r"
+}
