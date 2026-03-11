@@ -2,19 +2,14 @@ version: "2.4"
 services:
   app:
     container_name: "application-server"
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: "arfodublo/cursor-in-browser:1.7.52-x64"
     restart: always
     volumes:
       - .:/workspace:cached
-      - work:/home/vscode:cached
+      - cursor-data:/cursor
+      - cursor-config:/config
     ports:
-      - "8443:8443"
-    environment:
-      USER: "abc"
-      DEFAULT_WORKSPACE: "/config"
-      SUDO_PASSWORD: "pwd"
+      - "8080:8080"
     networks:
       - app-network
     cap_add:
@@ -27,4 +22,5 @@ networks:
   app-network:
     external: true
 volumes:
-  work:
+  cursor-data:
+  cursor-config:

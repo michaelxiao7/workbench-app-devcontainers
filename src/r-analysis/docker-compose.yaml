@@ -12,6 +12,11 @@ services:
       - "8787:8787"
     environment:
       "DISABLE_AUTH": "true"
+      # Gemini CLI's default browser-based OAuth uses a loopback redirect that
+      # doesn't work through RStudio's reverse proxy. NO_BROWSER=1 switches to
+      # a manual code flow: the user visits a URL, logs in, and pastes the code
+      # back into the terminal — no loopback port needed.
+      "NO_BROWSER": "1"
     networks:
       - app-network
     cap_add:
