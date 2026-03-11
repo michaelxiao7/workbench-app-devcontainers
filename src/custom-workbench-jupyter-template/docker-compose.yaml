@@ -3,7 +3,6 @@ services:
     container_name: "application-server"
     build:
       context: .
-      dockerfile: workbench-jupyter.Dockerfile
     user: "jupyter"
     restart: always
     volumes:
