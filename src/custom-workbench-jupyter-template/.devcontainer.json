@@ -22,7 +22,7 @@
   ],
   "features": {
     "ghcr.io/devcontainers/features/node": {
-      "version": "lts"
+      "version": "24.11.0"
     },
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
     "./.devcontainer/features/gemini-cli": { "username": "jupyter" },
