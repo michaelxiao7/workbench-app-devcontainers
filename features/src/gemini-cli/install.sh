@@ -13,8 +13,9 @@ if ! command -v node >/dev/null || ! command -v npm >/dev/null; then
 fi
 
 # Install Gemini CLI
+# Use a root-owned cache dir to avoid seeding the user's ~/.npm with root-owned files
 echo "Installing Gemini CLI..."
-npm install -g @google/gemini-cli
+npm install -g @google/gemini-cli --cache /root/.npm
 
 # Verify installation
 if command -v gemini >/dev/null; then
@@ -37,5 +38,13 @@ if [ "${USERNAME}" != "root" ]; then
     elif [ -d "/usr/local/share/nvm" ]; then
         echo "Fixing NVM permissions for user ${USERNAME}..."
         chown -R "${USERNAME}:" "/usr/local/share/nvm"
+    fi
+
+    # Fix npm cache ownership: npm install -g (run as root) can seed the user's
+    # ~/.npm cache with root-owned files, breaking npm for the non-root user.
+    USER_HOME=$(eval echo "~${USERNAME}" 2>/dev/null || echo "/home/${USERNAME}")
+    if [ -d "${USER_HOME}/.npm" ]; then
+        echo "Fixing npm cache ownership for user ${USERNAME}..."
+        chown -R "${USERNAME}:" "${USER_HOME}/.npm"
     fi
 fi
