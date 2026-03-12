@@ -33,9 +33,9 @@ USERNAME="${USERNAME:-root}"
 if [ "${USERNAME}" != "root" ]; then
     if [ -n "${NVM_DIR:-}" ] && [ -d "${NVM_DIR}" ]; then
         echo "Fixing NVM permissions for user ${USERNAME}..."
-        chown -R "${USERNAME}:${USERNAME}" "${NVM_DIR}"
+        chown -R "${USERNAME}:" "${NVM_DIR}"
     elif [ -d "/usr/local/share/nvm" ]; then
         echo "Fixing NVM permissions for user ${USERNAME}..."
-        chown -R "${USERNAME}:${USERNAME}" "/usr/local/share/nvm"
+        chown -R "${USERNAME}:" "/usr/local/share/nvm"
     fi
 fi
