@@ -8,7 +8,6 @@ install_gemini_cli() {
 
     if command -v gemini >/dev/null; then
         echo "Gemini CLI installed successfully!"
-        gemini --version
         return 0
     else
         echo "ERROR: Gemini CLI installation failed!"
