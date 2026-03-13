@@ -5,7 +5,7 @@ set -eu
 install_gemini_cli() {
     echo "Installing Gemini CLI..."
     # Use a root-owned cache dir to avoid seeding the user's ~/.npm with root-owned files
-    npm install -g @google/gemini-cli --cache /root/.npm # cache-bust: 2026-03-13
+    npm install -g @google/gemini-cli # cache-bust: 2026-03-13
 
     if command -v gemini >/dev/null; then
         echo "Gemini CLI installed successfully!"
