@@ -5,7 +5,7 @@ set -eu
 install_gemini_cli() {
     echo "Installing Gemini CLI..."
     # Use a root-owned cache dir to avoid seeding the user's ~/.npm with root-owned files
-    npm install -g @google/gemini-cli --cache /root/.npm
+    npm install -g @google/gemini-cli --cache /root/.npm # cache-bust: 2026-03-13
 
     if command -v gemini >/dev/null; then
         echo "Gemini CLI installed successfully!"
@@ -25,19 +25,14 @@ fix_permissions() {
         return 0
     fi
 
-    # Fix NVM permissions
-    # The node devcontainer feature installs NVM as root. Give the container user
-    # ownership of the entire NVM directory so NVM can manage versions on terminal open.
-    # Without this: "rm: cannot remove .../nvm/current: Permission denied"
+    # Fix NVM permissions: node feature installs as root, causing "Permission denied" in non-root containers
     local nvm_dir="${NVM_DIR:-/usr/local/share/nvm}"
     if [ -d "${nvm_dir}" ]; then
         echo "Fixing NVM permissions for user ${username}..."
         chown -R "${username}:" "${nvm_dir}"
     fi
 
-    # Fix npm cache ownership
-    # npm install -g (run as root) can seed the user's ~/.npm cache with root-owned files,
-    # breaking npm for the non-root user.
+    # Fix npm cache: npm install -g as root creates root-owned files in user's ~/.npm
     local user_home
     user_home=$(eval echo "~${username}" 2>/dev/null || echo "/home/${username}")
     if [ -d "${user_home}/.npm" ]; then
