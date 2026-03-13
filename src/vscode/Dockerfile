@@ -2,13 +2,15 @@ FROM lscr.io/linuxserver/code-server:4.100.3
 
 # Download extension VSIXs at build time so no network is needed at runtime.
 # To update: rebuild the image with --no-cache (latest version is pulled automatically).
-# Gemini: https://marketplace.visualstudio.com/items?itemName=Google.geminicodeassist
-# Claude: https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code
-RUN curl -fL --compressed \
-    "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Google/vsextensions/geminicodeassist/latest/vspackage" \
-    -o /opt/geminicodeassist.vsix && \
+# Gemini: https://open-vsx.org/extension/Google/geminicodeassist
+# Claude: https://open-vsx.org/extension/Anthropic/claude-code
+RUN GEMINI_VERSION=$(curl -fsSL "https://open-vsx.org/api/Google/geminicodeassist/latest" | grep -o '"version":"[^"]*"' | head -1 | cut -d'"' -f4) && \
     curl -fL --compressed \
-    "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/anthropic/vsextensions/claude-code/latest/vspackage" \
+    "https://open-vsx.org/api/Google/geminicodeassist/${GEMINI_VERSION}/file/Google.geminicodeassist-${GEMINI_VERSION}.vsix" \
+    -o /opt/geminicodeassist.vsix && \
+    CLAUDE_VERSION=$(curl -fsSL "https://open-vsx.org/api/Anthropic/claude-code/latest" | grep -o '"version":"[^"]*"' | head -1 | cut -d'"' -f4) && \
+    curl -fL --compressed \
+    "https://open-vsx.org/api/Anthropic/claude-code/${CLAUDE_VERSION}/file/Anthropic.claude-code-${CLAUDE_VERSION}.vsix" \
     -o /opt/claudecode.vsix
 
 # Install extensions during container init, before code-server starts
